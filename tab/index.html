@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tab</title>
+    <style>
+        .container {
+            width: 50%;
+            height: 700px;
+            margin: 50px auto;
+            border: solid 1px saddlebrown;
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+
+        .tab-title {
+            float: left;
+            width: 25%;
+            height: 50px;
+            line-height: 50px;
+            border: solid 1px sandybrown;
+            list-style: none;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .tab-title-active {
+            background-color: royalblue;
+        }
+
+        .tab-content {
+            width: 100%;
+            height: 650px;
+            clear: both;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="container">
+        <ul>
+            <li class="tab-title" v-bind:class="{'tab-title-active':currentTab==1}" @click="currentTab=1">tab1</li>
+            <li class="tab-title" v-bind:class="{'tab-title-active':currentTab==2}" @click="currentTab=2">tab2</li>
+            <li class="tab-title" v-bind:class="{'tab-title-active':currentTab==3}" @click="currentTab=3">tab3</li>
+            <li class="tab-title" v-bind:class="{'tab-title-active':currentTab==4}" @click="currentTab=4">tab4</li>
+        </ul>
+        <div class="tab-content" v-show="currentTab==1">Tab1 content</div>
+        <div class="tab-content" v-show="currentTab==2">Tab2 content</div>
+        <div class="tab-content" v-show="currentTab==3">Tab3 content</div>
+        <div class="tab-content" v-show="currentTab==4">Tab4 content</div>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+    <script>
+        let app = new Vue({
+            el: '#container',
+            data: {
+                currentTab: 1
+            }
+        })
+    </script>
+</body>
+
+</html>

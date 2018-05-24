@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>购物清单</title>
+    <style>
+        .item {
+            width: 100%;
+            height: 200px;
+        }
+
+        .checkspan {
+            border: solid 2px #000;
+            border-radius: 50%;
+            width: 15px;
+            height: 15px;
+            display: block;
+            box-sizing: border-box;
+        }
+
+        .checkspan.checked {
+            background-color: #f00;
+        }
+
+        td>span {
+            width: 30px;
+            display: inline-block;
+        }
+
+        input[type="text"] {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="shopping-cart" id="shopping-cart">
+        <header>购物清单</header>
+        <table>
+            <tr>
+                <th>
+                    <span class="checkspan" @click="selectAll" v-bind:class="{'checked':allSelected}"></span>全选</th>
+                <th>商品</th>
+                <th>数量</th>
+                <th>单价</th>
+                <th>金额</th>
+                <th>操作</th>
+            </tr>
+            <tr class="item" v-for="product in productList">
+                <td>
+                    <span class="checkspan" @click="product.selected=!product.selected" v-bind:class="{'checked':product.selected}"></span>
+                </td>
+                <td>
+                    <br> 品牌：{{product.pro_brand}}
+                    <br>产地：{{product.pro_place}}
+                    <br>规格/纯度：{{product.pro_purity}}
+                    <br>起订量：{{product.pro_min}}
+                    <br>所在仓库：{{product.pro_depot}}
+                </td>
+                <td>
+                    <span @click="product.pro_num=product.pro_num?product.pro_num-1:product.pro_num">-</span>
+                    <span>
+                        <input type="text" v-model="product.pro_num">
+                    </span>
+                    <span @click="product.pro_num++">+</span>
+                </td>
+                <td>{{product.pro_price}}</td>
+                <td>{{product.pro_price * product.pro_num}}</td>
+                <td>删除</td>
+            </tr>
+        </table>
+        <div>
+            <button @click="deleteSelect">删除所选</button>总计：{{amount}}</div>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#shopping-cart',
+            data: {
+                productList: [
+                    {
+                        'pro_name': '【斯文】甘油 | 丙三醇',//产品名称
+                        'pro_brand': 'skc',//品牌名称
+                        'pro_place': '韩国',//产地text" class="num-input" 
+                        'pro_purity': '99.7%',//规格
+                        'pro_min': "215千克",//最小起订量
+                        'pro_depot': '上海仓海仓储',//所在仓库
+                        'pro_num': 3,//数量
+                        'pro_img': '../../images/ucenter/testimg.jpg',//图片链接
+                        'pro_price': 800//单价
+                    },
+                    {
+                        'pro_name': '【斯文】甘油 | 丙三醇',//产品名称
+                        'pro_brand': 'skc',//品牌名称
+                        'pro_place': '韩国',//产地
+                        'pro_purity': '99.7%',//规格
+                        'pro_min': "215千克",//最小起订量
+                        'pro_depot': '上海仓海仓储',//所在仓库
+                        'pro_num': 2,//数量
+                        'pro_img': '../../images/ucenter/testimg.jpg',//图片链接
+                        'pro_price': 800//单价
+                    },
+                    {
+                        'pro_name': '【斯文】甘油 | 丙三醇',//产品名称
+                        'pro_brand': 'skc',//品牌名称
+                        'pro_place': '韩国',//产地
+                        'pro_purity': '99.7%',//规格
+                        'pro_min': "215千克",//最小起订量
+                        'pro_depot': '上海仓海仓储',//所在仓库
+                        'pro_num': 1,//数量
+                        'pro_img': '../../images/ucenter/testimg.jpg',//图片链接
+                        'pro_price': 800//单价
+                    }
+                ]
+            },
+            mounted: function () {
+                const _this = this;
+                this.productList.forEach(element => {
+                    _this.$set(element, 'selected', true);
+                });
+            },
+            computed: {
+                amount: function () {
+                    money = 0;
+                    this.productList.forEach(element => {
+                        money += element.selected ? element.pro_price * element.pro_num : 0;
+                    })
+                    return money;
+                },
+                allSelected: function () {
+                    flag = true;
+                    this.productList.forEach(element => {
+                        if (!element.selected) {
+                            flag = false
+                        }
+                    });
+                    return flag;
+                }
+            },
+            methods: {
+                selectAll: function () {
+                    const _this = this;
+                    const allSelected = _this.allSelected;
+                    _this.productList.forEach(element => {
+                        element.selected = allSelected ? false : true;
+                    });
+                },
+                deleteSelect: function () {
+                    const _this = this;
+                    let deleteIndexs = [];
+                    _this.productList.forEach(element => {
+                        if (element.selected) {
+                            index = _this.productList.indexOf(element);
+                            deleteIndexs.push(index);
+                        }
+                    });
+                    deleteIndexs.sort(function (a, b) {
+                        return a - b;
+                    })
+                    while (deleteIndexs.length) {
+                        _this.productList.splice(deleteIndexs.pop(), 1);
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
