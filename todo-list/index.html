@@ -97,19 +97,13 @@
                     const _this = this;
                     switch (_this.listType) {
                         case 'done-list':
-                            _this.list.forEach(element => {
-                                if (element.done) {
-                                    result.push(element);
-                                }
+                            return _this.list.filter(element => {
+                                return element.done;
                             });
-                            break;
                         case 'todo-list':
-                            _this.list.forEach(element => {
-                                if (!element.done) {
-                                    result.push(element);
-                                }
+                            return _this.list.filter(element => {
+                                return !element.done;
                             });
-                            break;
                         default:
                             return _this.list;
                             break;
