@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Todo list</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body>
+
+    </body>
+
+    </html>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        .container {
+            width: 500px;
+            height: 800px;
+            border: solid 1px #2cd;
+        }
+
+        .list-container>li {
+            list-style: none;
+        }
+
+        .select-area {
+            border: solid 1px #000;
+            border-radius: 50%;
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+        }
+
+        .done-item>.select-area::after {
+            content: '✓';
+            display: block;
+            margin-top: -4px;
+        }
+
+        .item-text {
+            border-style: none;
+        }
+
+        .done-item>.item-text {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="container">
+        <h2>Todo List</h2>
+        <div>
+            <input type="radio" name="list-type" id="all-list" value="all-list" v-model="listType">
+            <label for="all-list">All List</label>
+            <input type="radio" name="list-type" id="todo-list" value="todo-list" v-model="listType">
+            <label for="todo-list">Todo list</label>
+            <input type="radio" name="list-type" id="done-list" value="done-list" v-model="listType">
+            <label for="done-list">Done list</label>
+        </div>
+        <ul class="list-container">
+            <li v-for="li in showList" v-bind:class="{'done-item':li.done}">
+                <span class="select-area" @click="li.done=!li.done"></span>
+                <input type="text" class="item-text" v-bind:value="li.item"></input>
+                <span @click="deleteItem(li)">×</span>
+            </li>
+        </ul>
+        <input type="text" name="new-item" id="new-item-text" v-model="newItemText">
+        <input type="button" value="Add todo item" @click="addItem">
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#container',
+            data: {
+                list: [
+                    { item: 'learn Vue1.', done: false },
+                    { item: 'learn Vue2.', done: true },
+                    { item: 'learn Vue3.', done: true },
+                    { item: 'learn Vue4.', done: true },
+                    { item: 'learn Vue5.', done: true }
+                ],
+                listType: 'all-list',
+                newItemText: ''
+            },
+            computed: {
+                showList: function () {
+                    let result = [];
+                    const _this = this;
+                    switch (_this.listType) {
+                        case 'done-list':
+                            _this.list.forEach(element => {
+                                if (element.done) {
+                                    result.push(element);
+                                }
+                            });
+                            break;
+                        case 'todo-list':
+                            _this.list.forEach(element => {
+                                if (!element.done) {
+                                    result.push(element);
+                                }
+                            });
+                            break;
+                        default:
+                            return _this.list;
+                            break;
+                    }
+                    return result;
+                }
+            },
+            methods: {
+                addItem: function () {
+                    if (this.newItemText) {
+                        this.list.push({
+                            item: this.newItemText,
+                            done: false
+                        })
+                        this.newItemText = '';
+                    }
+                },
+                deleteItem: function (li) {
+                    console.log(li);
+                    this.list.splice(this.list.indexOf(li), 1);
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
