@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather</title>
+    <link rel="stylesheet" href="./css/main.css">
+</head>
+
+<body>
+    <main>
+        <div>
+            <div v-if="acquired">
+                气温：{{weather.now.temperature}}℃
+                <br>{{weather.location.name}}
+                <br>数据更新时间：{{weather.last_update.replace('T',' ').replace(/\+.+/,'')}}
+            </div>
+        </div>
+        <div>
+            <weather-item v-for="w,index in weathers.daily" :left="['今天','明天','后天'][index]" :right="w.low+'/'+w.high+' ℃'" v-if="acquired">
+                {{w.text_day}}
+                <img :src="'./images/3d_60/'+w.code_day+'.png'" :alt="w.text_day">
+            </weather-item>
+            <div>
+                <select name="province" id="province" v-model="selectedProvince" @change="updateShowCities">
+                    <option v-for="item in cities.provinces" :value="item.name">{{item.name}}</option>
+                </select>
+                <select name="city" id="city" v-model="selectedCity.name">
+                    <option v-for="item in showCities" :value="item.name">{{item.name }}</option>
+                </select>
+                <input type="button" value="查询" @click="updateWeather">
+            </div>
+        </div>
+
+    </main>
+
+    <script src="./js/vue.js"></script>
+    <script src="./js/hmac-sha1.js"></script>
+    <script src="./js/weather.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+
+</html>
