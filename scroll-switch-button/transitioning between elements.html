@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Transition</title>
+    <style>
+        .v-enter {
+            transform: translateX(-75px);
+        }
+
+        .v-enter-active {
+            transition-duration: 1s;
+        }
+
+        .btn-container {
+            width: 100px;
+            background: #ffe;
+            margin: 0 auto;
+            border: solid 1px #000;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        button {
+            width: 50px;
+            height: 100%;
+        }
+
+        .v-leave-active {
+            transform: translateX(75px);
+            transition-duration: 1s;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="test">
+
+        <div class="btn-container">
+            <transition mode="out-in">
+                <button v-if="yes" @click="yes=!yes" :key="yes">yes</button>
+                <button v-if="!yes" @click="yes=!yes">no</button>
+            </transition>
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#test',
+            data: {
+                yes: true
+            }
+        })
+    </script>
+</body>
+
+</html>
