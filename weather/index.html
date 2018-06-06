@@ -11,26 +11,38 @@
 
 <body>
     <main>
-        <div>
+        <div class="default" :class="temperatureStatus">
             <div v-if="acquired">
-                气温：{{weather.now.temperature}}℃
+                <span class="large">{{weather.now.temperature}}℃</span>
                 <br>{{weather.location.name}}
+                <br>{{weather.now.text}}
                 <br>数据更新时间：{{weather.last_update.replace('T',' ').replace(/\+.+/,'')}}
             </div>
+            <div v-if="updating">更新中……</div>
+            <windmill mystyle="right:200px;bottom:0;"></windmill>
+            <windmill mystyle="right:400px;bottom:0;"></windmill>
         </div>
         <div>
-            <weather-item v-for="w,index in weathers.daily" :left="['今天','明天','后天'][index]" :right="w.low+'/'+w.high+' ℃'" v-if="acquired">
-                {{w.text_day}}
-                <img :src="'./images/3d_60/'+w.code_day+'.png'" :alt="w.text_day">
-            </weather-item>
-            <div>
-                <select name="province" id="province" v-model="selectedProvince" @change="updateShowCities">
-                    <option v-for="item in cities.provinces" :value="item.name">{{item.name}}</option>
-                </select>
-                <select name="city" id="city" v-model="selectedCity.name">
-                    <option v-for="item in showCities" :value="item.name">{{item.name }}</option>
-                </select>
-                <input type="button" value="查询" @click="updateWeather">
+            <transition-group name="fadein-fadeout">
+                <weather-item v-for="w,index in weathers.daily" :left="['今天','明天','后天'][index]" :right="w.low+'/'+w.high+' ℃'" v-if="acquired"
+                    :key="index">
+                    {{w.text_day}}
+                    <img :src="'./images/3d_60/'+w.code_day+'.png'" :alt="w.text_day">
+                </weather-item>
+            </transition-group>
+            <div class="set">
+                <img src="./images/setting.png" alt="setting" @click="setting=!setting" height="70%" style="cursor: pointer;">
+                <transition name="spread-pull">
+                    <div v-if="setting">
+                        <select name="province" id="province" v-model="selectedProvince" @change="updateShowCities">
+                            <option v-for="item in cities.provinces" :value="item.name">{{item.name}}</option>
+                        </select>
+                        <select name="city" id="city" v-model="selectedCity.name">
+                            <option v-for="item in showCities" :value="item.name">{{item.name }}</option>
+                        </select>
+                        <input type="button" value="查询" @click="updateWeather">
+                    </div>
+                </transition>
             </div>
         </div>
 

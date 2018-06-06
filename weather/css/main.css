@@ -7,6 +7,11 @@ html,
 body {
     width: 100%;
     height: 100%;
+    font-size: 16px;
+}
+
+.large {
+    font-size: 4rem;
 }
 
 main {
@@ -14,6 +19,7 @@ main {
     height: 80%;
     border: solid 1px #000;
     margin: 0 auto;
+    font-size: 1.5rem;
 }
 
 main>div {
@@ -21,8 +27,26 @@ main>div {
     height: 50%;
 }
 
-main>div:first-of-type {
-    background-color: #0fd;
+.default {
+    background-color: #00e8f0;
+    transition-duration: 1s;
+    position: relative;
+}
+
+.hot {
+    background-color: #f00000;
+}
+
+.warm {
+    background-color: #f0f000;
+}
+
+.cool {
+    background-color: #00e8f0;
+}
+
+.cold {
+    background-color: #0004f0;
 }
 
 .weather-item {
@@ -31,10 +55,7 @@ main>div:first-of-type {
     overflow: hidden;
     width: 100%;
     height: 25%;
-}
-
-.weather-item>.weather-item-center {
-    width: 15%;
+    border-bottom: solid 1px #EEEEEE;
 }
 
 .weather-item>div {
@@ -44,4 +65,186 @@ main>div:first-of-type {
     display: flex;
     align-items: center;
     justify-content: space-around;
+}
+
+.set {
+    height: 25%;
+    display: flex;
+    align-items: center;
+}
+
+.set>* {
+    margin-right: 1.5rem;
+}
+
+select,
+input {
+    background: none;
+    border: solid 1px rgb(169, 169, 169);
+    font-size: 1.5rem;
+    letter-spacing: .3rem;
+}
+
+select {
+    width: 100px;
+    height: 50px;
+}
+
+input {
+    width: 80px;
+    height: 50px;
+}
+
+/* windmill */
+
+.windmill {
+    position: absolute;
+    width: 100px;
+    height: 200px;
+}
+
+.windmill>div {
+    position: absolute;
+}
+
+.winmill-base {
+    width: 2px;
+    height: 0;
+    right: 45px;
+    bottom: 10px;
+    border-right: solid 5px transparent;
+    border-bottom: solid 100px #fff;
+    border-left: solid 5px transparent;
+}
+
+.winmill-axis {
+    width: 10px;
+    height: 10px;
+    top: 89px;
+    right: 46px;
+    border-radius: 50%;
+    border: solid 3px #fff;
+    box-sizing: border-box;
+}
+
+.winmill-blade {
+    width: 2px;
+    height: 0px;
+    top: 52px;
+    right: 48px;
+    border-right: solid 2px transparent;
+    border-bottom: solid 40px #fff;
+    border-left: solid 2px transparent;
+}
+
+@keyframes rotate-0 {
+    from {
+        transform-origin: bottom;
+        -moz-transform-origin: bottom;
+        -webkit-transform-origin: bottom;
+        transform: rotate(0);
+        -moz-transform: rotate(0);
+        -webkit-transform: rotate(0);
+    }
+    to {
+        transform-origin: bottom;
+        -moz-transform-origin: bottom;
+        -webkit-transform-origin: bottom;
+        transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes rotate-120 {
+    from {
+        transform-origin: bottom;
+        -moz-transform-origin: bottom;
+        -webkit-transform-origin: bottom;
+        transform: rotate(120deg);
+        -moz-transform: rotate(120deg);
+        -webkit-transform: rotate(120deg);
+    }
+    to {
+        transform-origin: bottom;
+        -moz-transform-origin: bottom;
+        -webkit-transform-origin: bottom;
+        transform: rotate(480deg);
+        -moz-transform: rotate(480deg);
+        -webkit-transform: rotate(480deg);
+    }
+}
+
+@keyframes rotate-240 {
+    from {
+        transform-origin: bottom;
+        -moz-transform-origin: bottom;
+        -webkit-transform-origin: bottom;
+        transform: rotate(240deg);
+        -moz-transform: rotate(240deg);
+        -webkit-transform: rotate(240deg);
+    }
+    to {
+        transform-origin: bottom;
+        -moz-transform-origin: bottom;
+        -webkit-transform-origin: bottom;
+        transform: rotate(600deg);
+        -moz-transform: rotate(600deg);
+        -webkit-transform: rotate(600deg);
+    }
+}
+
+.rotate-0 {
+    animation: rotate-0 4s linear infinite;
+}
+
+.rotate-120 {
+    animation: rotate-120 4s linear infinite;
+}
+
+.rotate-240 {
+    animation: rotate-240 4s linear infinite;
+}
+
+@media screen and (max-width:800px) {
+    main {
+        font-size: 1rem;
+    }
+    select,
+    input {
+        font-size: 1rem;
+        letter-spacing: .3rem;
+        width: auto;
+        height: auto;
+    }
+}
+
+@media screen and (min-width:1000px) {
+    main {
+        width: 1000px;
+    }
+}
+
+/* Vue transition */
+
+.spread-pull-enter-active,
+.spread-pull-leave-active {
+    transition: all .5s ease-out;
+    opacity: 1;
+}
+
+.spread-pull-enter,
+.spread-pull-leave-to {
+    transform: translateX(-50px);
+    opacity: 0;
+}
+
+.fadein-fadeout-enter,
+.fadein-fadeout-leave-to {
+    opacity: 0;
+}
+
+.fadein-fadeout-enter-active,
+.fadein-fadeout-leave-active {
+    transition: all .5s ease-in-out;
 }
